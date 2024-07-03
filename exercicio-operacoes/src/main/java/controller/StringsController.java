@@ -39,10 +39,17 @@ public class StringsController {
     public String invertirFrase(
             @RequestParam String texto
     ){
+        String output = "";
+        for(int i = texto.length() - 1; i >= 0; i++) {
+            output += texto.charAt(i);
+        }
+        return output;
     }
 
     @GetMapping("/contar-vogais")
-    public int contarVogais(@RequestParam String texto){
+    public int contarVogais(
+            @RequestParam String texto
+    ){
         int count=0;
         for (int i=0; i<texto.length(); i++) {
             char c = texto.charAt(i);
@@ -59,6 +66,28 @@ public class StringsController {
             @RequestParam String texto1,
             @RequestParam String texto2
     ){
-        
+        return texto1.length() + texto2.length();
+    }
+
+    @GetMapping("/contar-palavras")
+    public int contarPalavras(
+            @RequestParam String texto
+    ){
+        String[] palavras = texto.split(" ");
+        return palavras.length;
+    }
+
+    @GetMapping ("/contar-letras")
+    public int contarLetras(
+            @RequestParam String palavra,
+            @RequestParam char letra
+    ){
+        int count = 0;
+        for(int i = 0; i< palavra.length(); i++){
+            if(palavra.charAt(i) == letra){
+                count ++;
+            }
+        }
+        return count;
     }
 }
