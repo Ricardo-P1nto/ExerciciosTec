@@ -4,6 +4,7 @@ import com.example.gestaodelivros.model.Livro;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/livros")
@@ -36,22 +37,48 @@ public class LivrosController {
     }
 
     @GetMapping("/pesquisa-titulo")
-    public Livro pesquisaTitulo (@RequestParam String titulo){
+    public List<Livro> pesquisaTitulo (@RequestParam String titulo){
         for (Livro livro : listaDeLivros){
             if (livro.getTitulo().equalsIgnoreCase(titulo)){
-                return livro;
+                return (List<Livro>) livro;
             }
         }
         return null;
     }
 
     @GetMapping("/pesquisa-autor")
-    public Livro pesquisaAutor (@RequestParam String autor){
+    public List<Livro> pesquisaAutor (@RequestParam String autor){
         for (Livro livro : listaDeLivros){
             if (livro.getAutor().equalsIgnoreCase(autor)){
-                return livro;
+                return (List<Livro>) livro;
             }
         }
         return null;
+    }
+
+
+    @GetMapping("/pesquisa-editora")
+    public List<Livro> pesquisaEditora (@RequestParam String editora){
+        for (Livro livro : listaDeLivros){
+            if (livro.getEditora().equalsIgnoreCase(editora)){
+                return (List<Livro>) livro;
+            }
+        }
+        return null;
+    }
+
+    @GetMapping("/pesquisa-paginas")
+    public List<Livro> pesquisaPaginas (@RequestParam String paginas){
+        List<Livro> livrosComPaginasIguaisOuSuperiores = new ArrayList<>();
+        int paginaslivro = Integer.parseInt(paginas);
+
+        for (Livro livro : listaDeLivros){
+            if (Integer.parseInt(livro.getNumeroPaginas()) >= paginaslivro){
+                livrosComPaginasIguaisOuSuperiores.add(livro);
+
+            }
+
+        }
+        return livrosComPaginasIguaisOuSuperiores;
     }
 }
