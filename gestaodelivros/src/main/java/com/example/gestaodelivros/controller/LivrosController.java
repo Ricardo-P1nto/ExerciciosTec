@@ -37,10 +37,10 @@ public class LivrosController {
     }
 
     @GetMapping("/pesquisa-titulo")
-    public List<Livro> pesquisaTitulo (@RequestParam String titulo){
+    public Livro pesquisaTitulo (@RequestParam String titulo){
         for (Livro livro : listaDeLivros){
             if (livro.getTitulo().equalsIgnoreCase(titulo)){
-                return (List<Livro>) livro;
+                return livro;
             }
         }
         return null;
