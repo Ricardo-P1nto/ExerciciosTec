@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script>
+    document.addEventListener('DOMContentLoaded', function (){
+        //Começamos por capturar o form
+        const forn = document.getElementById('produto-form');
+
+        forn.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const nome = document.getElementById('nome');
+            const preco = document.getElementById('preco');
+
+            const dadosProduto = {
+                nome: nome,
+                valor: preco,
+            }
+
+            try{
+                const resposta = await fetch('http://localhost:8080/api/produtos', {
+                    method: 'POST',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dadosProduto)
+                });
+
+                if(resposta.ok){
+                    document.getElementById('mensagem').textContent = 'Produto registado';
+                } else {
+                    document.getElementById('mensagem').textContent = 'Erro ao registar Produto';
+                }
+
+            }catch(erro){
+                document.getElementById('mensagem').textContent = 'Erro de conexão';
+            }
+        })
+    })
+</script>
+<body>
+    <h2>Registo de produto</h2>
+    <form id="produto-form">
+        <label for="nome">Nome do produto:</label><br>
+        <input type="text" id="nome" name="nome" required><br><br>
+
+        <label for="preço">Preço do produto</label><br>
+        <input type="number" id="preco" name="preço" step="0.01" min="0" required><br><br>
+
+        <input type="submit" value="Registar Produto">
+    </form>
+    <p id="mensagem"></p> <!--Exibe a mensagem de sucesso ou erro-->
+</body>
+</html>
